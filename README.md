@@ -18,47 +18,31 @@ Eject if you prefer having full control over your bundler and compiler. If the n
 
 Configure your compiler, linting and testing configurations according to your preference. By default, the configurations will be located in your package.json after ejecting. I prefer configuring jest, eslint, webpack and babel in the separate config files. I add these files separately and remove the react-scripts config and scripts files.
 
+### Running Localhost
+
+Run the app in the development mode at [http://localhost:3000](http://localhost:3000) to check it out:
+
+`npm start`
+
+### Testing
+
+Runs all the jest tests:
+
+`npm test`
+
+When it comes to testing, I agree with [Kent C. Dodds](https://twitter.com/kentcdodds/status/977018512689455106): 
+```
+The more your tests resemble the way your software is used, the more confidence they can give you.
+```
+
+And so I use [React Testing Library](https://testing-library.com/) to test each page for the value that it brings to the user. This encourages accessibility and allows you to refactor the code without breaking the tests. Your tests get to do what they were meant to do originally, give you confidence that things work that way it will in the real world and without it being tied down to the implementation details. Read more about the [guiding principles](https://testing-library.com/docs/guiding-principles).
+
+## Part 2: Routing 
+
+Add `react-router-dom` and set up the routes and layout components.
+
+- `app(.test).tsx`: The top level app is responsible to test whether the different routes render the expected pages as well as testing whether layout contexts are propagating to the pages (context consumers). Since each page is responsible for testing itself, the pages are mocked here.
+- `pages/**/index(.test).tsx`: Each page tests all the expected functionality and use cases for that page. Only test the expected functionality and expected text that the user should see. It is not needed to test styling details or order of components unless those details carry a lot of weight towards the user value.
+- `test/utils.tsx`: Helper function that wraps the rendered element in a memory router.
 
 
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
