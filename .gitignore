@@ -1,6 +1,7 @@
 # environment
 **/.env
 **/.npmrc
+build
 
 # Created by https://www.toptal.com/developers/gitignore/api/intellij,visualstudiocode,react
 # Edit at https://www.toptal.com/developers/gitignore?templates=intellij,visualstudiocode,react

@@ -1,12 +1,12 @@
 # React Forms and Testing
 
-This project is an example solution for handling form state and queries or mutations in React. This code definitely does not aim for perfection. Neither does it aim to manoeuvre itself into a "Design Patterns" textbook that you tried to digest during tertiary education. Rather it aims to spike curiosity around user-value driven testing and ideally convince you to do the same in your next project. 
+This project is an example solution for handling form state and queries or mutations in React. This code definitely does not aim for perfection. Neither does it aim to manoeuvre itself into a "Design Patterns" textbook that you tried to digest during tertiary education. Rather it aims to spike curiosity around user-value driven testing and ideally convince you to do the same in your next project.
 
 Within the Volkswagen group, we are often required to use one of two UX systems namely GroupUI and Design 6. These dependencies make use of the shadow dom which causes some unexpected unmet expectations during testing. To put more plainly, it means that doing `input.type` in your test doesn't cause anything to be typed in the input.
 
 I would like to invite you into the deep waters of JavaScript, lean programming, test driven development and the ever evolving world of frontend. Get in touch if you have any suggestions on the code. I love a good React state management discussion!
 
-# Getting Started
+## Part 1: Scraping the Icing Off
 
 Start with a bootstrapped project from [Create React App](https://github.com/facebook/create-react-app).
 
@@ -15,6 +15,9 @@ Start with a bootstrapped project from [Create React App](https://github.com/fac
 Eject if you prefer having full control over your bundler and compiler. If the name webpack already gives you the creeps, better skip this step. Read more about [eject](https://create-react-app.dev/docs/available-scripts#npm-run-eject).
 
 `npm run eject`
+
+Configure your compiler, linting and testing configurations according to your preference. By default, the configurations will be located in your package.json after ejecting. I prefer configuring jest, eslint, webpack and babel in the separate config files. I add these files separately and remove the react-scripts config and scripts files.
+
 
 
 ## Available Scripts
