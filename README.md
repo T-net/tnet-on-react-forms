@@ -60,7 +60,11 @@ Setting up the user should happen before the component is rendered, but not insi
 2. Write the least amount of code to make the tests pass.
 3. Refactor the tests and implementation to improve the structure and style.
 
+### Form Submit
 
-
-
-
+1. Add the `process.env.API_URL` environment variable in the global jest config.
+2. Add `msw` dependency to set up a mock server in your tests.
+3. Mock a server that catches the `POST` expected from the form submission (do not mock a specific implementation e.g. mocking fetch or mocking axios).
+4. Test that the request payload received in the mock server matches the expected one after clicking on save.
+5. Write the least amount of code to make the tests pass. I have travelled along the milky way of state management options and have found `react-hook-form` to be the most powerful yet lean solution when it comes to React forms.
+6. Refactor.

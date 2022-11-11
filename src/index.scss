@@ -46,13 +46,27 @@ fieldset > p {
   margin: 0 0 0.5em;
 }
 
-input, textarea, select {
+input, textarea, select, button {
   font-family: $font-family;
-  width: 100%;
   border-radius: 0;
   border: 1px solid #ddd;
-  padding: 0.5em 0.7em;
   font-size: 1rem;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 0.5em 0.7em;
+}
+
+button {
+  transition: background-color .3s ease;
+  cursor: pointer;
+  padding: 0.6em 1.2em;
+  background-color: #f9f9f9;
+
+  &:hover, &:focus {
+    background-color: #e5e5e5;
+  }
 }
 
 input[type="checkbox"],

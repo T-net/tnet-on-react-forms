@@ -1,8 +1,16 @@
 import React from 'react';
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
 import { render, screen, within } from '../../test/utils';
 import AddPineapple from './index';
 
+const server = setupServer();
+
 describe('add pineapple page', () => {
+  beforeAll(() => server.listen());
+  afterAll(() => server.close());
+  afterEach(() => server.resetHandlers());
+
   it('renders a heading and description', () => {
     render(<AddPineapple />);
 
@@ -74,5 +82,37 @@ describe('add pineapple page', () => {
     await user.selectOptions(typeCombobox, [options[3]]);
     expect(typeCombobox).toHaveDisplayValue('On a Margarita');
     expect(typeCombobox).toHaveValue('margarita');
+  });
+
+  it('submits the form values', async () => {
+    let requestData: any;
+    server.use(
+      rest.post(`${process.env.API_URL}/pineapple`, async (req, res, ctx) => {
+        requestData = await req.json();
+        return res(ctx.status(201));
+      }),
+    );
+
+    const { user } = render(<AddPineapple />);
+
+    await user.type(screen.getByRole('textbox', { name: 'Name:' }), 'name-value');
+    await user.type(screen.getByRole('textbox', { name: 'Description:' }), 'description-value');
+    await user.click(screen.getByRole('checkbox', { name: 'Agree to the pineapple spike risk' }));
+    await user.click(screen.getByRole('radio', { name: 'Yellow pineapple' }));
+
+    const combobox = screen.getByRole('combobox', { name: 'Favourite type:' });
+    await user.selectOptions(combobox, [within(combobox).getAllByRole('option')[1]]);
+
+    const button = screen.getByRole('button', { name: 'Save' });
+    expect(button).toBeVisible();
+
+    await user.click(button);
+    expect(requestData).toEqual({
+      name: 'name-value',
+      description: 'description-value',
+      agree: true,
+      color: 'yellow',
+      type: 'ice-cream',
+    });
   });
 });
