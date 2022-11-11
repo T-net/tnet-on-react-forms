@@ -77,6 +77,10 @@ Setting up the user should happen before the component is rendered, but not insi
 
 ### Notification
 
+1. Test that a success message appears after successful submission and an error message appears after failure. You will need to spy on the `console.error` in order for your tests to not produce error logs when you run them.
+2. Implement a notification state that is set on success and on error.
+3. Refactor (consider how the notification state and form should be reset).
+
 ## Part 4: Tackling GroupUI
 
 ## Part 5: Tackling Design 6

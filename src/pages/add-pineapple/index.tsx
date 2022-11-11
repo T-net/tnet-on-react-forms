@@ -1,22 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Flexbox from '../../components/styled/flexbox';
 
 const AddPineapple = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const [notification, setNotification] = useState<string | undefined>(undefined);
 
-  const onSubmit = handleSubmit((data) => (
-    fetch(`${process.env.API_URL}/pineapple`, {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-  ));
+  const onSubmit = handleSubmit((data) => fetch(`${process.env.API_URL}/pineapple`, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).then((response) => (
+    setNotification(response.ok
+      ? 'Your pineapple has been successfully added!'
+      : 'Oops! There has been error trying to add the pineapple.')
+  )));
 
   return (
     <>
+      {notification && <p>{notification}</p>}
       <h2>Add a Pineapple</h2>
       <p>
         We choose to go to the moon. We choose to go to the moon in this decade and do the other

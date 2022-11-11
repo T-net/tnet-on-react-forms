@@ -105,6 +105,7 @@ describe('add pineapple page', () => {
 
     const button = screen.getByRole('button', { name: 'Save' });
     expect(button).toBeVisible();
+    expect(screen.queryByText('Your pineapple has been successfully added!')).not.toBeInTheDocument();
 
     await user.click(button);
     expect(requestData).toEqual({
@@ -114,6 +115,7 @@ describe('add pineapple page', () => {
       color: 'yellow',
       type: 'ice-cream',
     });
+    expect(await screen.findByText('Your pineapple has been successfully added!')).toBeVisible();
   });
 
   it.each`
@@ -127,5 +129,32 @@ describe('add pineapple page', () => {
     await user.click(screen.getByRole('button', { name: 'Save' }));
 
     expect(await screen.findByText(message)).toBeVisible();
+  });
+
+  it('renders an error when failing to submit', async () => {
+    // @ts-ignore
+    // eslint-disable-next-line no-console
+    console.error.mockImplementation(() => null);
+    let isCalled = false;
+    server.use(
+      rest.post(`${process.env.API_URL}/pineapple`, (req, res, ctx) => {
+        isCalled = true;
+        return res(ctx.status(500));
+      }),
+    );
+
+    const { user } = render(<AddPineapple />);
+
+    await user.type(screen.getByRole('textbox', { name: 'Name:' }), 'name-value');
+    await user.type(screen.getByRole('textbox', { name: 'Description:' }), 'description-value');
+    const combobox = screen.getByRole('combobox', { name: 'Favourite type:' });
+    await user.selectOptions(combobox, [within(combobox).getAllByRole('option')[1]]);
+
+    expect(screen.queryByText('Oops! There has been error trying to add the pineapple.')).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Save' }));
+
+    expect(isCalled).toBe(true);
+    expect(await screen.findByText('Oops! There has been error trying to add the pineapple.')).toBeVisible();
+    expect(screen.queryByText('Your pineapple has been successfully added!')).not.toBeInTheDocument();
   });
 });
