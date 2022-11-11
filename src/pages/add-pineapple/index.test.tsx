@@ -115,4 +115,17 @@ describe('add pineapple page', () => {
       type: 'ice-cream',
     });
   });
+
+  it.each`
+    name              | message
+    ${'name'}         | ${'Name is required'}
+    ${'description'}  | ${'Description is required'}
+    ${'type'}         | ${'Favourite type is required'}
+  `('validates $name', async ({ message }) => {
+    const { user } = render(<AddPineapple />);
+
+    await user.click(screen.getByRole('button', { name: 'Save' }));
+
+    expect(await screen.findByText(message)).toBeVisible();
+  });
 });

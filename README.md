@@ -68,3 +68,15 @@ Setting up the user should happen before the component is rendered, but not insi
 4. Test that the request payload received in the mock server matches the expected one after clicking on save.
 5. Write the least amount of code to make the tests pass. I have travelled along the milky way of state management options and have found `react-hook-form` to be the most powerful yet lean solution when it comes to React forms.
 6. Refactor.
+
+### Validation
+
+1. Write a test that attempts to submit the form with empty values and check that validation messages are visible.
+2. Implement the required rules for the fields and display the errors (I cover controlled components with the UI libraries in part 4).
+3. Refactor.
+
+### Notification
+
+## Part 4: Tackling GroupUI
+
+## Part 5: Tackling Design 6

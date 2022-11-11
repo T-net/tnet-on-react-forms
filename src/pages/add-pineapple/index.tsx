@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import Flexbox from '../../components/styled/flexbox';
 
 const AddPineapple = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = handleSubmit((data) => (
     fetch(`${process.env.API_URL}/pineapple`, {
@@ -29,37 +29,66 @@ const AddPineapple = () => {
       <form onSubmit={onSubmit}>
         <fieldset>
           <label htmlFor="name">Name:</label>
-          <input type="text" id="name" placeholder="Type the name" {...register('name')} />
+          <input
+            type="text"
+            id="name"
+            placeholder="Type the name"
+            {...register('name', { required: { value: true, message: 'Name is required' } })}
+          />
+          {errors.name && <span role="alert">{errors.name.message?.toString()}</span>}
         </fieldset>
         <fieldset>
           <label htmlFor="description">Description:</label>
-          <textarea id="description" placeholder="Type the description" {...register('description')} />
+          <textarea
+            id="description"
+            placeholder="Type the description"
+            {...register('description', { required: { value: true, message: 'Description is required' } })}
+          />
+          {errors.description && <span role="alert">{errors.description.message?.toString()}</span>}
         </fieldset>
         <fieldset>
           <Flexbox gap={0.4}>
-            <input type="checkbox" id="agree" {...register('agree')} />
+            <input
+              type="checkbox"
+              id="agree"
+              {...register('agree')}
+            />
             <label htmlFor="agree">Agree to the pineapple spike risk</label>
           </Flexbox>
         </fieldset>
         <fieldset>
           <p>Favourite colour:</p>
           <Flexbox gap={0.4}>
-            <input type="radio" id="color-green" value="green" {...register('color')} />
+            <input
+              type="radio"
+              id="color-green"
+              value="green"
+              {...register('color')}
+            />
             <label htmlFor="color-green">Green pineapple</label>
           </Flexbox>
           <Flexbox gap={0.4}>
-            <input type="radio" id="color-yellow" value="yellow" {...register('color')} />
+            <input
+              type="radio"
+              id="color-yellow"
+              value="yellow"
+              {...register('color')}
+            />
             <label htmlFor="color-yellow">Yellow pineapple</label>
           </Flexbox>
         </fieldset>
         <fieldset>
           <label htmlFor="type">Favourite type:</label>
-          <select id="type" {...register('type')}>
+          <select
+            id="type"
+            {...register('type', { required: { value: true, message: 'Favourite type is required' } })}
+          >
             <option value="">Select you favourite type</option>
             <option value="ice-cream">Ice-cream Flavour</option>
             <option value="pizza">On a Pizza</option>
             <option value="margarita">On a Margarita</option>
           </select>
+          {errors.type && <span role="alert">{errors.type.message?.toString()}</span>}
         </fieldset>
         <button type="submit">Save</button>
       </form>
