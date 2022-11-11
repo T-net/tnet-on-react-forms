@@ -45,4 +45,22 @@ Add `react-router-dom` and set up the routes and layout components.
 - `pages/**/index(.test).tsx`: Each page tests all the expected functionality and use cases for that page. Only test the expected functionality and expected text that the user should see. It is not needed to test styling details or order of components unless those details carry a lot of weight towards the user value.
 - `test/utils.tsx`: Helper function that wraps the rendered element in a memory router.
 
+## Part 3: Testing Expected Behaviour
+
+_Note: I added `styled-components` as a dependency for component specific styling. There are various ways of styling React components. I'm not bent on a specific approach; each have their advantages._
+
+### User Events
+With a real user, the browser interprets user events like typing and clicking and then dispatches the respective events needed. We need to use `user-event` to mock the UI layer to simulate user interactions.
+
+Setting up the user should happen before the component is rendered, but not inside a `beforeEach` function (read more about [userEvent](https://testing-library.com/docs/user-event/intro#writing-tests-with-userevent)). Adjust the `test/utils.tsx` render function to set up and return the user.
+
+### Form Fields
+
+1. Write the tests for expected input label, placeholder, initial value, user action and changed value.
+2. Write the least amount of code to make the tests pass.
+3. Refactor the tests and implementation to improve the structure and style.
+
+
+
+
 
