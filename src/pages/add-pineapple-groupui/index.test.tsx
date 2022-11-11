@@ -1,8 +1,10 @@
 import React from 'react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import { render, screen, within } from '../../test/utils';
-import AddPineapple from './index';
+import {
+  groupuiChange, render, screen, within,
+} from '../../test/utils';
+import AddPineappleGroupui from './index';
 
 const server = setupServer();
 
@@ -12,7 +14,7 @@ describe('add pineapple page', () => {
   afterEach(() => server.resetHandlers());
 
   it('renders a heading and description', () => {
-    render(<AddPineapple />);
+    render(<AddPineappleGroupui />);
 
     expect(screen.getByText('Add a Pineapple')).toBeVisible();
     expect(screen.getByText('We choose to go to the moon. We choose to go to the moon in this decade and do the other things, not because they are easy, but because they are hard, because that goal will serve to organize and measure the best of our energies and skills, because that challenge is one that we are willing to accept, one we are unwilling to postpone, and one which we intend to win, and the others, too.')).toBeVisible();
@@ -24,19 +26,19 @@ describe('add pineapple page', () => {
     ${'name'} | ${'Name *'}
     ${'description'} | ${'Description *'}
   `('renders the $field field', async ({ field, label }) => {
-    const { user } = render(<AddPineapple />);
+    render(<AddPineappleGroupui />);
 
-    const textbox = screen.getByRole('textbox', { name: label });
+    const textbox = screen.getByPlaceholderText(`Type the ${field}`);
     expect(textbox).toBeVisible();
-    expect(textbox).toHaveAttribute('placeholder', `Type the ${field}`);
+    expect(textbox).toHaveTextContent(label);
     expect(textbox).toHaveValue('');
 
-    await user.type(textbox, `${field}-value`);
+    groupuiChange(textbox, `${field}-value`);
     expect(textbox).toHaveValue(`${field}-value`);
   });
 
   it('renders the agree checkbox', async () => {
-    const { user } = render(<AddPineapple />);
+    const { user } = render(<AddPineappleGroupui />);
 
     const checkbox = screen.getByRole('checkbox', { name: 'Agree to the pineapple spike risk' });
     expect(checkbox).toBeVisible();
@@ -47,7 +49,7 @@ describe('add pineapple page', () => {
   });
 
   it('renders the color radios', async () => {
-    const { user } = render(<AddPineapple />);
+    const { user } = render(<AddPineappleGroupui />);
 
     expect(screen.getByText('Favourite colour:')).toBeVisible();
 
@@ -69,7 +71,7 @@ describe('add pineapple page', () => {
   });
 
   it('renders the type dropdown', async () => {
-    const { user } = render(<AddPineapple />);
+    const { user } = render(<AddPineappleGroupui />);
 
     const combobox = screen.getByRole('combobox', { name: 'Favourite type:' });
     expect(combobox).toBeVisible();
@@ -101,10 +103,10 @@ describe('add pineapple page', () => {
       }),
     );
 
-    const { user } = render(<AddPineapple />);
+    const { user } = render(<AddPineappleGroupui />);
 
-    await user.type(screen.getByRole('textbox', { name: 'Name *' }), 'name-value');
-    await user.type(screen.getByRole('textbox', { name: 'Description *' }), 'description-value');
+    groupuiChange(screen.getByPlaceholderText('Type the name'), 'name-value');
+    groupuiChange(screen.getByPlaceholderText('Type the description'), 'description-value');
     await user.click(screen.getByRole('checkbox', { name: 'Agree to the pineapple spike risk' }));
     await user.click(screen.getByRole('radio', { name: 'Yellow pineapple' }));
 
@@ -132,7 +134,7 @@ describe('add pineapple page', () => {
     ${'description'}  | ${'Description is required'}
     ${'type'}         | ${'Favourite type is required'}
   `('validates $name', async ({ message }) => {
-    const { user } = render(<AddPineapple />);
+    const { user } = render(<AddPineappleGroupui />);
 
     await user.click(screen.getByRole('button', { name: 'Save' }));
 
@@ -151,10 +153,10 @@ describe('add pineapple page', () => {
       }),
     );
 
-    const { user } = render(<AddPineapple />);
+    const { user } = render(<AddPineappleGroupui />);
 
-    await user.type(screen.getByRole('textbox', { name: 'Name *' }), 'name-value');
-    await user.type(screen.getByRole('textbox', { name: 'Description *' }), 'description-value');
+    groupuiChange(screen.getByPlaceholderText('Type the name'), 'name-value');
+    groupuiChange(screen.getByPlaceholderText('Type the description'), 'description-value');
     const combobox = screen.getByRole('combobox', { name: 'Favourite type:' });
     await user.selectOptions(combobox, [within(combobox).getAllByRole('option')[1]]);
 
