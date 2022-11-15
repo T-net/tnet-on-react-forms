@@ -82,5 +82,8 @@ Setting up the user should happen before the component is rendered, but not insi
 3. Refactor (consider how the notification state and form should be reset).
 
 ## Part 4: Tackling GroupUI
-
-## Part 5: Tackling Design 6
+1. Replace `getByRole('textbox')` with `getByPlaceholderText`.
+2. Replace `user.type` user event with firing a `groupuiChange` event.
+3. Replace `getByRole('button')`with `getByText` or explicitly add `role="button"` to the `GroupuiButton`.
+4. Replace `user.click` user event with firing a `submit` event.
+5. Await for the results since `fireEvent` does not return a promise.

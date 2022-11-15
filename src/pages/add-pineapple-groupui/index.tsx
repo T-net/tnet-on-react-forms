@@ -1,29 +1,22 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { GroupuiHeadline, GroupuiText } from '@group-ui/group-ui-react';
-import Flexbox from '../../components/styled/flexbox';
+import {
+  GroupuiButton, GroupuiHeadline, GroupuiNotification, GroupuiText,
+} from '@group-ui/group-ui-react';
 import '@group-ui/group-ui-react/node_modules/@group-ui/group-ui/dist/group-ui/assets/themes/vwag/vwag.css';
 import TextInput from '../../components/form/text-input';
 
 interface AddPineappleFields {
   name: string,
   description: string,
-  agree: boolean,
-  color: string,
-  type: string,
 }
 
 const AddPineappleGroupui = () => {
   const defaultValues: AddPineappleFields = {
     name: '',
     description: '',
-    agree: false,
-    color: '',
-    type: '',
   };
-  const {
-    register, control, handleSubmit, formState: { errors },
-  } = useForm({ defaultValues });
+  const { control, handleSubmit } = useForm({ defaultValues });
   const [notification, setNotification] = useState<string | undefined>(undefined);
 
   const onSubmit = handleSubmit((data) => fetch(`${process.env.API_URL}/pineapple`, {
@@ -40,7 +33,9 @@ const AddPineappleGroupui = () => {
 
   return (
     <>
-      {notification && <p>{notification}</p>}
+      {notification && (
+        <GroupuiNotification dismissible={false}>{notification}</GroupuiNotification>
+      )}
       <GroupuiHeadline heading="h2">Add a Pineapple</GroupuiHeadline>
       <GroupuiText>
         We choose to go to the moon. We choose to go to the moon in this decade and do the other
@@ -72,51 +67,8 @@ const AddPineappleGroupui = () => {
             required
           />
         </fieldset>
-        <fieldset>
-          <Flexbox gap={0.4}>
-            <input
-              type="checkbox"
-              id="agree"
-              {...register('agree')}
-            />
-            <label htmlFor="agree">Agree to the pineapple spike risk</label>
-          </Flexbox>
-        </fieldset>
-        <fieldset>
-          <p>Favourite colour:</p>
-          <Flexbox gap={0.4}>
-            <input
-              type="radio"
-              id="color-green"
-              value="green"
-              {...register('color')}
-            />
-            <label htmlFor="color-green">Green pineapple</label>
-          </Flexbox>
-          <Flexbox gap={0.4}>
-            <input
-              type="radio"
-              id="color-yellow"
-              value="yellow"
-              {...register('color')}
-            />
-            <label htmlFor="color-yellow">Yellow pineapple</label>
-          </Flexbox>
-        </fieldset>
-        <fieldset>
-          <label htmlFor="type">Favourite type:</label>
-          <select
-            id="type"
-            {...register('type', { required: { value: true, message: 'Favourite type is required' } })}
-          >
-            <option value="">Select you favourite type</option>
-            <option value="ice-cream">Ice-cream Flavour</option>
-            <option value="pizza">On a Pizza</option>
-            <option value="margarita">On a Margarita</option>
-          </select>
-          {errors.type && <span role="alert">{errors.type.message?.toString()}</span>}
-        </fieldset>
-        <button type="submit">Save</button>
+
+        <GroupuiButton type="submit">Save</GroupuiButton>
       </form>
     </>
   );
